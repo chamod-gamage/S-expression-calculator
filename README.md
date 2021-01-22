@@ -139,13 +139,6 @@ It's possible to mix and match integers and function calls to build arbitrary ca
     (multiply 2 (add (multiply 2 3) 8))
     28
 
-  
-Evaluation Criteria
--------------------
-
-This is not a complete rubric by which we evaluate your submission, but gives
-you a baseline of things we look for.
-
 
 [sexp]: https://en.wikipedia.org/wiki/S-expression
 [ebnf]: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
