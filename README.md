@@ -44,9 +44,9 @@ Exactly one space is used to separate each term.
 
 For example:
 
-    (add 123 456 789)
+    (add 123 459)
 
-    (multiply (add 1 2) 3 4)
+    (multiply (add 1 2) 4)
 
 Expression grammar
 ------------------
@@ -136,7 +136,7 @@ It's possible to mix and match integers and function calls to build arbitrary ca
     (add 1 (multiply 2 3))
     7
 
-    (multiply 2 (add (multiply 2 3) 8))
+    (multiply (add (multiply 2 3) 8))
     28
 
 
