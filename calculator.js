@@ -5,7 +5,12 @@ function isNumber(n) {
 function getInput() {
   return process.argv.slice(2)[0];
 }
-
+/*
+splits a substring into arguments, either reading forwards or backwards (according to parameters)
+returns an array containing:
+  an array of arguments read at index 0 
+  the index at which reading halted (due to encountering a bracket or terminus) at index 1
+*/
 function splitArgs(data, l, r, delimiter, shouldReadForward) {
   let argumentList = [];
   let current = "";
@@ -32,10 +37,10 @@ function splitArgs(data, l, r, delimiter, shouldReadForward) {
   ((shouldReadForward && index > r) || (!shouldReadForward && index < l)) &&
     argumentList.push(current);
 
-  let returnData = [argumentList, index];
-  return returnData;
+  return [argumentList, index];
 }
 
+//recursive function reading all arguments given in a string
 function readArgs(data) {
   if (typeof data === "object") {
     return data;
@@ -53,6 +58,7 @@ function readArgs(data) {
   return args;
 }
 
+//parse and then calculate the value of a string containing expressions
 function calculate(command) {
   if (isNumber(command)) {
     return parseInt(command);
