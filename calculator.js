@@ -1,22 +1,3 @@
-let base = {
-  add: 0,
-  multiply: 1,
-};
-let maxArgs = 3;
-let errorState = false;
-
-function errors(err, variableStr) {
-  errorState = true;
-  switch (err) {
-    case "invalid":
-      return `Argument ${variableStr} is invalid.`;
-    case "tooMany":
-      return `Too many arguments given for expression: ${variableStr}`;
-    default:
-      return "Unfortunately, we could not process that. Please try again.";
-  }
-}
-
 function isNumber(n) {
   return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
 }
@@ -24,7 +5,6 @@ function isNumber(n) {
 function getInput() {
   return process.argv.slice(2)[0];
 }
-
 /*
 splits a substring into arguments, either reading forwards or backwards (according to parameters)
 returns an array containing:
@@ -84,20 +64,22 @@ function calculate(command) {
     return parseInt(command);
   }
 
-  if (errorState) {
-    return command;
-  }
+  let base = {
+    add: 0,
+    multiply: 1,
+  };
+  let maxArgs = 3;
 
   let arguments = readArgs(command);
 
   if (arguments.length === 1) {
     if (isNumber(arguments[0])) {
-      return parseInt(arguments[0]);
+      parseInt(arguments[0]);
     } else {
-      return errors("invalid", arguments[0]);
+      return `Argument ${arguments[0]} is invalid.`;
     }
   } else if (arguments.length > maxArgs) {
-    return errors("tooMany", command);
+    return `Too many arguments given for expression: ${command}`;
   }
 
   let operator = arguments.shift();
@@ -108,20 +90,23 @@ function calculate(command) {
       for (let i = 0; i < arguments.length; i++) {
         result += calculate(arguments[i]);
       }
-      break;
+      return parseInt(result);
 
     case "multiply":
       for (let i = 0; i < arguments.length; i++) {
         result *= calculate(arguments[i]);
       }
-      break;
-  }
+      return parseInt(result);
 
-  if (!errorState) {
-    return parseInt(result);
-  } else {
-    return errors("default");
+    default:
+      console.log(
+        "Unfortunately, we could not process that input. Please try again."
+      );
   }
 }
 
-console.log(calculate(getInput()));
+try {
+  console.log(calculate(getInput()));
+} catch (e) {
+  console.log(e);
+}
