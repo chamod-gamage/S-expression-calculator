@@ -70,7 +70,7 @@ function calculate(command) {
     } else {
       return `Argument ${arguments[0]} is invalid.`;
     }
-  } else if (arguments.length > 2) {
+  } else if (arguments.length > maxArgs) {
     return `Too many arguments given for expression: ${command}`;
   }
 
