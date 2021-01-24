@@ -1,3 +1,22 @@
+let base = {
+  add: 0,
+  multiply: 1,
+};
+let maxArgs = 3;
+let errorState = false;
+
+function errors(err, variableStr) {
+  errorState = true;
+  switch (err) {
+    case "invalid":
+      return `Argument ${variableStr} is invalid.`;
+    case "tooMany":
+      return `Too many arguments given for expression: ${variableStr}`;
+    default:
+      return "Unfortunately, we could not process that. Please try again.";
+  }
+}
+
 function isNumber(n) {
   return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
 }
@@ -5,6 +24,7 @@ function isNumber(n) {
 function getInput() {
   return process.argv.slice(2)[0];
 }
+
 /*
 splits a substring into arguments, either reading forwards or backwards (according to parameters)
 returns an array containing:
@@ -64,22 +84,20 @@ function calculate(command) {
     return parseInt(command);
   }
 
-  let base = {
-    add: 0,
-    multiply: 1,
-  };
-  let maxArgs = 3;
+  if (errorState) {
+    return command;
+  }
 
   let arguments = readArgs(command);
 
   if (arguments.length === 1) {
     if (isNumber(arguments[0])) {
-      parseInt(arguments[0]);
+      return parseInt(arguments[0]);
     } else {
-      return `Argument ${arguments[0]} is invalid.`;
+      return errors("invalid", arguments[0]);
     }
   } else if (arguments.length > maxArgs) {
-    return `Too many arguments given for expression: ${command}`;
+    return errors("tooMany", command);
   }
 
   let operator = arguments.shift();
@@ -90,23 +108,20 @@ function calculate(command) {
       for (let i = 0; i < arguments.length; i++) {
         result += calculate(arguments[i]);
       }
-      return parseInt(result);
+      break;
 
     case "multiply":
       for (let i = 0; i < arguments.length; i++) {
         result *= calculate(arguments[i]);
       }
-      return parseInt(result);
+      break;
+  }
 
-    default:
-      console.log(
-        "Unfortunately, we could not process that input. Please try again."
-      );
+  if (!errorState) {
+    return parseInt(result);
+  } else {
+    return errors("default");
   }
 }
 
-try {
-  console.log(calculate(getInput()));
-} catch (e) {
-  console.log(e);
-}
+console.log(calculate(getInput()));
