@@ -60,7 +60,6 @@ function calculate(command) {
     add: 0,
     multiply: 1,
   };
-  let maxArgs = 3;
 
   let arguments = splitArgs(command);
 
@@ -68,10 +67,8 @@ function calculate(command) {
     if (isNumber(arguments[0])) {
       parseInt(arguments[0]);
     } else {
-      return `Argument ${arguments[0]} is invalid.`;
+      return "Argument invalid.";
     }
-  } else if (arguments.length > maxArgs) {
-    return `Too many arguments given for expression: ${command}`;
   }
 
   let operator = arguments.shift();
