@@ -60,7 +60,7 @@ function calculate(command) {
     add: 0,
     multiply: 1,
   };
-  let maxArgs = 2;
+  let maxArgs = 3;
 
   let arguments = splitArgs(command);
 
@@ -70,7 +70,7 @@ function calculate(command) {
     } else {
       return `Argument ${arguments[0]} is invalid.`;
     }
-  } else if (arguments.length > maxArgs) {
+  } else if (arguments.length > 2) {
     return `Too many arguments given for expression: ${command}`;
   }
 
